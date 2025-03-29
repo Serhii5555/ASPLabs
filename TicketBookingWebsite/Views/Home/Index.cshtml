@@ -1,35 +1,18 @@
 ﻿@model TicketBookingWebsite.ViewModels.EventListViewModel
 @using System.Globalization
 
-<table class="table table-striped table-bordered">
-    <thead class="table-dark">
-        <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Date</th>
-            <th>Location</th>
-            <th>Price</th>
-            <th>Available Tickets</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var e in Model.Events)
-        {
-            <tr>
-                <td>@e.Name</td>
-                <td>@e.Description</td>
-                <td>@e.Date.ToString("MMMM dd, yyyy HH:mm", CultureInfo.InvariantCulture)</td>
-                <td>@e.Location</td>
-                <td>@e.Price.ToString("c")</td>
-                <td>@e.AvailableTickets</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    @foreach (var e in Model.Events)
+    {
+        <div class="flex-grow-1" style="min-width: 300px; max-width: 400px;">
+            <partial name="EventSummary" model="e" />
+        </div>
+    }
+</div>
 
 <!-- Pagination Controls -->
-<nav>
-    <ul class="pagination">
+<nav class="mt-4">
+    <ul class="pagination justify-content-center">
         @for (int i = 1; i <= Model.PagingInfo.TotalPages; i++)
         {
             <li class="page-item @(i == Model.PagingInfo.CurrentPage ? "active" : "")">

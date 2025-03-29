@@ -1,0 +1,18 @@
+﻿@model TicketBookingWebsite.Models.Event
+
+<div class="card mb-3 shadow-sm">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Name</h5>
+        <p class="card-text text-muted">
+            <i class="bi bi-calendar-event"></i> @Model.Date.ToString("dd MMMM, yyyy") <br>
+            <i class="bi bi-geo-alt"></i> @Model.Location
+        </p>
+        <p class="card-text">@Model.Description</p>
+        <p class="card-text fw-bold text-success">
+            <i class="bi bi-ticket"></i> @Model.AvailableTickets tickets available
+        </p>
+        <p class="card-text">
+            <span class="badge bg-primary fs-6">$@Model.Price</span>
+        </p>
+    </div>
+</div>

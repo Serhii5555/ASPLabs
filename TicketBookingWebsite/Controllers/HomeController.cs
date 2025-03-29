@@ -6,7 +6,7 @@ using TicketBookingWebsite.ViewModels;
 public class HomeController : Controller
 {
     private readonly IWebsiteRepository repository;
-    private const int PageSize = 2; // Change as needed
+    private const int PageSize = 5;
 
     public HomeController(IWebsiteRepository repo)
     {
