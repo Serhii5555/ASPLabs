@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TicketBookingWebsite.Models;
 
-namespace SportsStore.Data
+namespace TicketBookingWebsite.Data
 {
     public class WebsiteDbContext : DbContext
     {

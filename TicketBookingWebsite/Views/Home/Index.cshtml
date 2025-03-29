@@ -1,5 +1,6 @@
 ﻿@model TicketBookingWebsite.ViewModels.EventListViewModel
-@using System.Globalization
+
+<h2>@(Model.CurrentCategory ?? "All Events")</h2>
 
 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
     @foreach (var e in Model.Events)
@@ -16,7 +17,7 @@
         @for (int i = 1; i <= Model.PagingInfo.TotalPages; i++)
         {
             <li class="page-item @(i == Model.PagingInfo.CurrentPage ? "active" : "")">
-                <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
+                <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-category="@Model.CurrentCategory">@i</a>
             </li>
         }
     </ul>

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
-using SportsStore.Data;
+using TicketBookingWebsite.Data;
 using TicketBookingWebsite.Models;
 using TicketBookingWebsite.Repositories;
 
@@ -14,7 +14,17 @@ builder.Services.AddDbContext<WebsiteDbContext>(opts => {
 
 builder.Services.AddScoped<IWebsiteRepository, EFWebsiteRepository>();
 
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); 
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 var app = builder.Build();
+
+app.UseSession();
 
 if (!app.Environment.IsDevelopment())
 {

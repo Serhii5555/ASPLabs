@@ -14,5 +14,9 @@
         <p class="card-text">
             <span class="badge bg-primary fs-6">$@Model.Price</span>
         </p>
+
+        <a href="@Url.Action("AddToCart", "Home", new { eventId = Model.Id })" class="btn btn-primary">
+            Add to Cart
+        </a>
     </div>
 </div>

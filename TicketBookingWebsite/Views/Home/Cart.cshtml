@@ -1,0 +1,33 @@
+﻿@model TicketBookingWebsite.ViewModels.CartViewModel
+
+<h2>Your Cart</h2>
+
+@if (Model.Events != null && Model.Events.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Event</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Events)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Price.ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h3>Total: @Model.TotalPrice.ToString("C")</h3>
+
+    <a href="@Url.Action("ClearCart")" class="btn btn-danger">Clear Cart</a>
+    <a href="@Url.Action("Checkout")" class="btn btn-primary">Proceed to Checkout</a>
+}
+else
+{
+    <p>Your cart is empty.</p>
+}

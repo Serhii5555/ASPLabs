@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using SportsStore.Data;
+using TicketBookingWebsite.Data;
 using System;
 using System.Linq;
 

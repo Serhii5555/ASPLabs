@@ -7,5 +7,7 @@ namespace TicketBookingWebsite.ViewModels
     {
         public IEnumerable<Event> Events { get; set; }
         public PagingInfo PagingInfo { get; set; }
+        public string? CurrentCategory { get; set; }
     }
+
 }

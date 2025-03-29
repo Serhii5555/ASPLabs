@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-using SportsStore.Data;
 using TicketBookingWebsite.Models;
+using TicketBookingWebsite.Data;
 
 namespace TicketBookingWebsite.Repositories
 {

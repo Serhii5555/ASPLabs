@@ -1,0 +1,18 @@
+﻿<div class="sidebar-sticky">
+    <h4 class="text-primary">Categories</h4>
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link text-dark fw-bold" asp-controller="Home" asp-action="Index" asp-route-category="">
+                All Events
+            </a>
+        </li>
+        @foreach (var category in Model)
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-controller="Home" asp-action="Index" asp-route-category="@category">
+                    @category
+                </a>
+            </li>
+        }
+    </ul>
+</div>
