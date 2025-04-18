@@ -8,5 +8,6 @@ namespace TicketBookingWebsite.Data
         public WebsiteDbContext(DbContextOptions<WebsiteDbContext> options) : base(options) { }
 
         public DbSet<Event> Events => Set<Event>();
+        public DbSet<Booking> Bookings => Set<Booking>(); 
     }
 }

@@ -1,0 +1,30 @@
+﻿@model List<TicketBookingWebsite.Models.Booking>
+
+<h2 class="my-4">Bookings</h2>
+<a asp-action="Create" class="btn btn-primary mb-3">Create Booking</a>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>User</th>
+            <th>Event</th>
+            <th>Tickets</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var b in Model)
+        {
+            <tr>
+                <td>@b.CustomerName</td>
+                <td>@b.Event?.Name</td>
+                <td>@b.Quantity</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@b.Id" class="btn btn-info btn-sm me-1">Details</a>
+                    <a asp-action="Edit" asp-route-id="@b.Id" class="btn btn-warning btn-sm me-1">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@b.Id" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

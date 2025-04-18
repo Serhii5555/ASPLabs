@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 using TicketBookingWebsite.Models;
 using TicketBookingWebsite.Data;
+using TicketBookingWebsite.Repositories.Interfaces;
 
 namespace TicketBookingWebsite.Repositories
 {

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using TicketBookingWebsite.Data;
 using TicketBookingWebsite.Models;
 using TicketBookingWebsite.Repositories;
+using TicketBookingWebsite.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,8 @@ builder.Services.AddDbContext<WebsiteDbContext>(opts => {
 });
 
 builder.Services.AddScoped<IWebsiteRepository, EFWebsiteRepository>();
+builder.Services.AddScoped<IEventRepository, EventRepository>();
+builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>

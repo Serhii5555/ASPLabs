@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using TicketBookingWebsite.Models;
-using TicketBookingWebsite.Repositories;
+using TicketBookingWebsite.Repositories.Interfaces;
 using TicketBookingWebsite.ViewModels;
 
 public class HomeController : Controller

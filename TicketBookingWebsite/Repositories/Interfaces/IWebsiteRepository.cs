@@ -1,6 +1,6 @@
 ﻿using TicketBookingWebsite.Models;
 
-namespace TicketBookingWebsite.Repositories
+namespace TicketBookingWebsite.Repositories.Interfaces
 {
     public interface IWebsiteRepository
     {

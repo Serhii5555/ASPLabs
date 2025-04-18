@@ -1,0 +1,28 @@
+﻿@model List<TicketBookingWebsite.Models.Event>
+
+<h2 class="my-4">Events</h2>
+<a asp-action="Create" class="btn btn-primary mb-3">Create New Event</a>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var e in Model)
+        {
+            <tr>
+                <td>@e.Name</td>
+                <td>@e.Date.ToShortDateString()</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@e.Id" class="btn btn-info btn-sm me-1">Details</a>
+                    <a asp-action="Edit" asp-route-id="@e.Id" class="btn btn-warning btn-sm me-1">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@e.Id" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

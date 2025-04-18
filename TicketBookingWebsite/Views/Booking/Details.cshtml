@@ -1,0 +1,27 @@
+﻿@model TicketBookingWebsite.Models.Booking
+
+<h2>Booking Details</h2>
+
+<div class="card">
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Customer Name</dt>
+            <dd class="col-sm-9">@Model.CustomerName</dd>
+
+            <dt class="col-sm-3">Customer Email</dt>
+            <dd class="col-sm-9">@Model.CustomerEmail</dd>
+
+            <dt class="col-sm-3">Event</dt>
+            <dd class="col-sm-9">@Model.Event?.Name</dd>
+
+            <dt class="col-sm-3">Tickets</dt>
+            <dd class="col-sm-9">@Model.Quantity</dd>
+
+            <dt class="col-sm-3">Booking Date</dt>
+            <dd class="col-sm-9">@Model.BookingDate.ToString("g")</dd>
+        </dl>
+
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>
