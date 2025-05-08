@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TicketBookingWebsite.Models;
 using TicketBookingWebsite.Repositories.Interfaces;
 
 namespace TicketBookingWebsite.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class EventController : Controller
     {
         private readonly IEventRepository _repository;

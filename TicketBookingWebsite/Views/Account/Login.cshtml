@@ -1,0 +1,42 @@
+﻿@model TicketBookingWebsite.ViewModels.LoginModel
+
+<div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
+    <div class="card p-4 shadow" style="min-width: 300px; max-width: 400px; width: 100%;">
+        <h2 class="text-center mb-4">Login</h2>
+
+        <form asp-action="Login" method="post">
+            <div class="form-group mb-3">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-4">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="form-control" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+
+            <div class="form-group mb-2 mt-2">
+                <p>Not registered? <a asp-action="Register">Create an account</a></p>
+            </div>
+
+            <div class="form-group">
+                <a href="#" onclick="redirectToForgotPassword()" id="forgotPasswordLink">Forgot your password?</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function redirectToForgotPassword() {
+            const email = document.querySelector('input[name="Email"]').value;
+            const url = `/Account/ForgotPassword${email ? '?email=' + encodeURIComponent(email) : ''}`;
+            window.location.href = url;
+        }
+    </script>
+}

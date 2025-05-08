@@ -1,23 +1,29 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using TicketBookingWebsite.Data;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
+using TicketBookingWebsite.Models;
 
-namespace TicketBookingWebsite.Models
+namespace TicketBookingWebsite.Data
 {
     public static class SeedData
     {
-        public static void EnsurePopulated(IApplicationBuilder app)
+        public static async Task EnsurePopulated(IApplicationBuilder app)
         {
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
                 var context = serviceScope.ServiceProvider.GetRequiredService<WebsiteDbContext>();
+                var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
                 if (context.Database.GetPendingMigrations().Any())
                 {
                     context.Database.Migrate();
                 }
+
+                await SeedRoles(roleManager);
 
                 if (!context.Events.Any())
                 {
@@ -60,6 +66,59 @@ namespace TicketBookingWebsite.Models
                         }
                     );
                     context.SaveChanges();
+                }
+
+                await SeedUsers(userManager);
+            }
+        }
+
+        private static async Task SeedRoles(RoleManager<IdentityRole> roleManager)
+        {
+            string[] roleNames = { "Admin", "User" };
+
+            foreach (var roleName in roleNames)
+            {
+                var roleExist = await roleManager.RoleExistsAsync(roleName);
+                if (!roleExist)
+                {
+                    await roleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
+        }
+
+        private static async Task SeedUsers(UserManager<IdentityUser> userManager)
+        {
+            var adminUser = await userManager.FindByEmailAsync("admin@ticketbooking.com");
+
+            if (adminUser == null)
+            {
+                adminUser = new IdentityUser
+                {
+                    UserName = "admin@ticketbooking.com",
+                    Email = "admin@ticketbooking.com"
+                };
+                var result = await userManager.CreateAsync(adminUser, "AdminPassword123!");
+
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(adminUser, "Admin");
+                }
+            }
+
+            var regularUser = await userManager.FindByEmailAsync("user@ticketbooking.com");
+
+            if (regularUser == null)
+            {
+                regularUser = new IdentityUser
+                {
+                    UserName = "user@ticketbooking.com",
+                    Email = "user@ticketbooking.com"
+                };
+                var result = await userManager.CreateAsync(regularUser, "UserPassword123!");
+
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(regularUser, "User");
                 }
             }
         }
