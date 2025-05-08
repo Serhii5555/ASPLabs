@@ -11,9 +11,8 @@ namespace TicketBookingWebsite.ViewModels
         [Required]
         public string Name { get; set; }
 
-        [Required]
         [Phone]
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
     }
 
 }

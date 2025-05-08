@@ -11,10 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<WebsiteDbContext>(opts =>
-{
-    opts.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]);
-});
+builder.Services.AddDbContext<WebsiteDbContext>(options =>
+    options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]));
 
 builder.Services.AddDbContext<WebsiteIdentityDbContext>(options =>
     options.UseSqlServer(builder.Configuration["ConnectionStrings:IdentityConnection"]));
