@@ -1,0 +1,40 @@
+﻿@inherits LayoutComponentBase
+@using Blazored.LocalStorage
+@using Microsoft.AspNetCore.Components.Authorization
+@inject ILocalStorageService LocalStorage
+@inject JwtAuthenticationStateProvider AuthStateProvider
+@inject NavigationManager Nav
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4 d-flex">
+            <AuthorizeView>
+                <Authorized>
+                    <p class="mb-0">Hello, @context.User.Identity?.Name!</p>
+                    <button class="btn btn-link" @onclick="Logout">Logout</button>
+                </Authorized>
+                <NotAuthorized>
+                    <a href="/login">Login</a> 
+                    <a href="/register">Register</a>
+                </NotAuthorized>
+            </AuthorizeView>
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+@code {
+    private async Task Logout()
+    {
+        await LocalStorage.RemoveItemAsync("authToken");
+        AuthStateProvider.NotifyUserLogout();
+        Nav.NavigateTo("/");
+    }
+}

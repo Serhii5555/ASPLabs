@@ -1,0 +1,42 @@
+﻿@page "/login"
+@inject HttpClient Http
+@inject NavigationManager Nav
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+@inject JwtAuthenticationStateProvider AuthStateProvider
+
+<h3>Login</h3>
+
+<EditForm Model="loginModel" OnValidSubmit="HandleLogin">
+    <InputText @bind-Value="loginModel.Username" placeholder="Username" />
+    <InputText @bind-Value="loginModel.Password" type="password" placeholder="Password" />
+    <button type="submit">Login</button>
+</EditForm>
+
+@code {
+    public class LoginModel
+    {
+        public string Username { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+    }
+
+    private LoginModel loginModel = new();
+
+    private async Task HandleLogin()
+    {
+        var response = await Http.PostAsJsonAsync("api/auth/login", loginModel);
+        if (response.IsSuccessStatusCode)
+        {
+            var result = await response.Content.ReadFromJsonAsync<TokenResponse>();
+            await LocalStorage.SetItemAsync("authToken", $"{result!.Token}");
+            Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", result.Token);
+            AuthStateProvider.NotifyUserAuthentication(result.Token);
+            Nav.NavigateTo("/");
+            
+        }
+    }
+
+    public class TokenResponse
+    {
+        public string Token { get; set; }
+    }
+}

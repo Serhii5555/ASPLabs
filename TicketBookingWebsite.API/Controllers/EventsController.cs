@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TicketBookingWebsite.Data;
 using TicketBookingWebsite.Models;
 
 namespace TicketBookingWebsite.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class EventsController : ControllerBase
@@ -16,6 +18,7 @@ namespace TicketBookingWebsite.API.Controllers
             _context = context;
         }
 
+        [AllowAnonymous]
         // GET: api/events
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Event>>> GetEvents()

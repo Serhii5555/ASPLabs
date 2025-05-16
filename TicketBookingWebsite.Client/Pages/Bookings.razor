@@ -1,0 +1,75 @@
+﻿@page "/bookings"
+@attribute [Authorize]
+@inject BookingService BookingService
+@inject NavigationManager Nav
+@using Microsoft.AspNetCore.Authorization
+@using TicketBookingWebsite.Client.Services
+@using TicketBookingWebsite.Models
+
+<h3 class="mb-3 text-xl font-bold">Bookings</h3>
+
+<button @onclick="CreateNew" class="btn btn-primary mb-2">New Booking</button>
+
+@if (bookings == null)
+{
+        <p><em>Loading...</em></p>
+}
+else if (bookings.Count == 0)
+{
+        <p>No bookings found.</p>
+}
+else
+{
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Customer</th>
+                    <th>Email</th>
+                    <th>Quantity</th>
+                    <th>Date</th>
+                    <th>Event</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var b in bookings)
+            {
+                        <tr>
+                            <td>@b.CustomerName</td>
+                            <td>@b.CustomerEmail</td>
+                            <td>@b.Quantity</td>
+                            <td>@b.BookingDate.ToShortDateString()</td>
+                            <td>@b.Event?.Name</td>
+                            <td>
+                                <button class="btn btn-sm btn-warning" @onclick="() => Edit(b.Id)">Edit</button>
+                                <button class="btn btn-sm btn-danger" @onclick="() => Delete(b.Id)">Delete</button>
+                            </td>
+                        </tr>
+            }
+            </tbody>
+        </table>
+}
+
+@code {
+    private List<Booking>? bookings;
+
+    protected override async Task OnInitializedAsync()
+    {
+        bookings = await BookingService.GetAllAsync();
+    }
+
+    private void CreateNew() => Nav.NavigateTo("/bookings/new");
+    private void Edit(int id) => Nav.NavigateTo($"/bookings/edit/{id}");
+
+    private async Task Delete(int id)
+    {
+        var confirmed = await JS.InvokeAsync<bool>("confirm", "Are you sure you want to delete this booking?");
+        if (confirmed)
+        {
+            await BookingService.DeleteAsync(id);
+            bookings = await BookingService.GetAllAsync(); 
+        }
+    }
+
+    [Inject] private IJSRuntime JS { get; set; } = default!;
+}

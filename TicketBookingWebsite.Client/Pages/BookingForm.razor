@@ -1,0 +1,83 @@
+﻿@page "/bookings/new"
+@page "/bookings/edit/{Id:int}"
+@inject BookingService BookingService
+@inject EventService EventService
+@inject NavigationManager Nav
+@using TicketBookingWebsite.Client.Services
+@using TicketBookingWebsite.Models
+
+<h3 class="text-xl font-semibold">@FormTitle</h3>
+
+<EditForm Model="booking" OnValidSubmit="HandleValidSubmit" >
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-2">
+        <label>Customer Name:</label>
+        <InputText @bind-Value="booking.CustomerName" class="form-control" />
+        <ValidationMessage For="@(() => booking.CustomerName)" />
+    </div>
+
+    <div class="mb-2">
+        <label>Email:</label>
+        <InputText @bind-Value="booking.CustomerEmail" class="form-control" />
+        <ValidationMessage For="@(() => booking.CustomerEmail)" />
+    </div>
+
+    <div class="mb-2">
+        <label>Quantity:</label>
+        <InputNumber @bind-Value="booking.Quantity" class="form-control" />
+        <ValidationMessage For="@(() => booking.Quantity)" />
+    </div>
+
+    <div class="mb-2">
+        <label>Event:</label>
+        <InputSelect @bind-Value="booking.EventId" class="form-control">
+            <option value="">-- Select an event --</option>
+            @foreach (var evt in events)
+            {
+                <option value="@evt.Id">@evt.Name</option>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => booking.EventId)" />
+    </div>
+
+
+    <button type="submit" class="btn btn-success">@SubmitButtonText</button>
+    <button type="button" class="btn btn-secondary ms-2" @onclick='() => Nav.NavigateTo("/bookings")'>Cancel</button>
+</EditForm>
+
+@code {
+    [Parameter] public int? Id { get; set; }
+    private Booking booking = new();
+    private string FormTitle => Id == null ? "Create Booking" : "Edit Booking";
+    private string SubmitButtonText => Id == null ? "Create" : "Update";
+    private List<Event> events = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        events = await EventService.GetAllAsync();
+
+        if (Id.HasValue)
+        {
+            var existing = await BookingService.GetByIdAsync(Id.Value);
+            if (existing != null)
+                booking = existing;
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        bool success = Id == null
+            ? await BookingService.CreateAsync(booking)
+            : await BookingService.UpdateAsync(booking);
+
+        if (success)
+            Nav.NavigateTo("/bookings");
+    }
+
+    private void LogSubmit()
+    {
+        Console.WriteLine("Form submitted (OnSubmit fired)");
+    }
+}

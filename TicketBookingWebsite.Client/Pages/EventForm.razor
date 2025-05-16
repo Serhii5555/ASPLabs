@@ -1,0 +1,80 @@
+﻿@page "/events/new"
+@page "/events/edit/{Id:int}"
+@using TicketBookingWebsite.Client.Services
+@using TicketBookingWebsite.Models
+@inject EventService EventService
+@inject NavigationManager Nav
+
+<h3 class="text-xl font-semibold mb-3">@FormTitle</h3>
+
+<EditForm Model="eventModel" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label>Name:</label>
+        <InputText @bind-Value="eventModel.Name" class="form-control" />
+        <ValidationMessage For="@(() => eventModel.Name)" />
+    </div>
+
+    <div class="mb-3">
+        <label>Description:</label>
+        <InputTextArea @bind-Value="eventModel.Description" class="form-control" />
+        <ValidationMessage For="@(() => eventModel.Description)" />
+    </div>
+
+    <div class="mb-3">
+        <label>Date:</label>
+        <InputDate @bind-Value="eventModel.Date" class="form-control" />
+        <ValidationMessage For="@(() => eventModel.Date)" />
+    </div>
+
+    <div class="mb-3">
+        <label>Location:</label>
+        <InputText @bind-Value="eventModel.Location" class="form-control" />
+        <ValidationMessage For="@(() => eventModel.Location)" />
+    </div>
+
+    <div class="mb-3">
+        <label>Price:</label>
+        <InputNumber @bind-Value="eventModel.Price" class="form-control" step="0.01" />
+        <ValidationMessage For="@(() => eventModel.Price)" />
+    </div>
+
+    <div class="mb-3">
+        <label>Available Tickets:</label>
+        <InputNumber @bind-Value="eventModel.AvailableTickets" class="form-control" />
+        <ValidationMessage For="@(() => eventModel.AvailableTickets)" />
+    </div>
+
+    <button type="submit" class="btn btn-success">@SubmitButtonText</button>
+    <button type="button" class="btn btn-secondary ms-2" @onclick="@(() => Nav.NavigateTo("/events"))">Cancel</button>
+</EditForm>
+
+@code {
+    [Parameter] public int? Id { get; set; }
+
+    private Event eventModel = new();
+    private string FormTitle => Id == null ? "Create Event" : "Edit Event";
+    private string SubmitButtonText => Id == null ? "Create" : "Update";
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id.HasValue)
+        {
+            var existing = await EventService.GetByIdAsync(Id.Value);
+            if (existing != null)
+                eventModel = existing;
+        }
+    }
+
+    private async Task HandleSubmit()
+    {
+        bool success = Id == null
+            ? await EventService.CreateAsync(eventModel)
+            : await EventService.UpdateAsync(eventModel);
+
+        if (success)
+            Nav.NavigateTo("/events");
+    }
+}

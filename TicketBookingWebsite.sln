@@ -5,9 +5,11 @@ VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingWebsite", "TicketBookingWebsite\TicketBookingWebsite.csproj", "{5112BAF7-0CEE-4132-A316-357991BE6BF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketBookingWebsite.Data", "TicketBookingWebsite.Data\TicketBookingWebsite.Data.csproj", "{EE6460EF-A15A-49AC-BB16-1717B540EF90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingWebsite.Data", "TicketBookingWebsite.Data\TicketBookingWebsite.Data.csproj", "{EE6460EF-A15A-49AC-BB16-1717B540EF90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketBookingWebsite.API", "TicketBookingWebsite.API\TicketBookingWebsite.API.csproj", "{A293D5B5-2121-43AE-BA31-CF0A7BF6EFBB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingWebsite.API", "TicketBookingWebsite.API\TicketBookingWebsite.API.csproj", "{A293D5B5-2121-43AE-BA31-CF0A7BF6EFBB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingWebsite.Client", "TicketBookingWebsite.Client\TicketBookingWebsite.Client.csproj", "{EE42BDDE-6A9F-4DD9-BF98-3E48449A78FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{A293D5B5-2121-43AE-BA31-CF0A7BF6EFBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A293D5B5-2121-43AE-BA31-CF0A7BF6EFBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A293D5B5-2121-43AE-BA31-CF0A7BF6EFBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE42BDDE-6A9F-4DD9-BF98-3E48449A78FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE42BDDE-6A9F-4DD9-BF98-3E48449A78FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE42BDDE-6A9F-4DD9-BF98-3E48449A78FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE42BDDE-6A9F-4DD9-BF98-3E48449A78FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

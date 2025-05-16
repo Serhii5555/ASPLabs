@@ -1,0 +1,70 @@
+﻿@page "/events"
+@attribute [Authorize]
+@inject EventService EventService
+@inject NavigationManager Nav
+@using Microsoft.AspNetCore.Authorization
+@using TicketBookingWebsite.Models
+@using TicketBookingWebsite.Client.Services
+
+<h3 class="text-xl font-semibold mb-3">Events</h3>
+
+<button class="btn btn-primary mb-3" @onclick='() => Nav.NavigateTo(" /events/new")'>New Event</button>
+
+@if (events == null)
+{
+    <p>Loading...</p>
+}
+else if (events.Count == 0)
+{
+    <p>No events available.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Location</th>
+                <th>Tickets</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var e in events)
+            {
+                <tr>
+                    <td>@e.Name</td>
+                    <td>@e.Date.ToShortDateString()</td>
+                    <td>@e.Location</td>
+                    <td>@e.AvailableTickets</td>
+                    <td>
+                        <button class="btn btn-sm btn-info" @onclick='() => Nav.NavigateTo($" /events/edit/{e.Id}")'>Edit</button>
+                        <button class="btn btn-sm btn-danger" @onclick="() => DeleteEvent(e.Id)">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Event> events = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        events = await EventService.GetAllAsync();
+    }
+
+    private async Task DeleteEvent(int id)
+    {
+        var confirmed = await JS.InvokeAsync<bool>("confirm", "Are you sure?");
+        if (confirmed)
+        {
+            await EventService.DeleteAsync(id);
+            events = await EventService.GetAllAsync();
+        }
+    }
+
+    [Inject] IJSRuntime JS { get; set; }
+}

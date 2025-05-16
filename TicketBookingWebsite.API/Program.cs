@@ -74,7 +74,19 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowBlazorApp",
+        builder => builder
+            .WithOrigins("https://localhost:7050")
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials());
+});
+
 var app = builder.Build();
+
+app.UseCors("AllowBlazorApp");
 
 if (app.Environment.IsDevelopment())
 {
