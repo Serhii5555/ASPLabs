@@ -6,6 +6,7 @@ using TicketBookingWebsite.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using TicketBookingWebsite.Helpers;
+using TicketBookingWebsite.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,6 +54,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.LogoutPath = "/Account/Logout"; 
     });
 
+builder.Services.AddSignalR(); 
+
 var app = builder.Build();
 
 app.UseSession();
@@ -76,5 +79,7 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 SeedData.EnsurePopulated(app);
+
+app.MapHub<SeatHub>("/seathub");
 
 app.Run();

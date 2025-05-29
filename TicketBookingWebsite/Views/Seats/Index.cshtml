@@ -1,0 +1,58 @@
+﻿@model List<Seat>
+
+@{
+    ViewData["Title"] = "Select Seats";
+}
+
+<h2>Select Your Seats</h2>
+
+<div id="seat-container">
+    @foreach (var seat in Model)
+    {
+        <button id="@seat.Id" 
+                class="seat @(seat.IsAvailable ? "available" : "unavailable")" 
+                onclick="selectSeat('@seat.Id')">
+            @seat.Id
+        </button>
+    }
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+
+<script>
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/seathub")
+        .build();
+
+    connection.on("ReceiveSeatUpdate", (seatId, isAvailable) => {
+        const seat = document.getElementById(seatId);
+        seat.classList.remove("available", "unavailable");
+        seat.classList.add(isAvailable ? "available" : "unavailable");
+        seat.disabled = !isAvailable;
+    });
+
+    connection.start().catch(err => console.error(err.toString()));
+
+    function selectSeat(seatId) {
+        fetch(`/Seats/Book?id=${seatId}`, { method: 'POST' })
+            .then(() => connection.invoke("NotifySeatUpdate", seatId, false))
+            .catch(err => console.error(err));
+    }
+</script>
+
+<style>
+    .seat {
+        margin: 5px;
+        padding: 10px 20px;
+    }
+
+    .available {
+        background-color: green;
+        color: white;
+    }
+
+    .unavailable {
+        background-color: red;
+        color: white;
+    }
+</style>
